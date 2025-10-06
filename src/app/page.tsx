@@ -20,14 +20,13 @@ export default function Home() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
-
-
 
   const handleNameChange = (event: { target: { value: SetStateAction<string>; }; }) => {
     setName(event.target.value);
@@ -49,8 +48,8 @@ export default function Home() {
 
     try {
       setLoading(true);
-      setError(null);
-      setSuccess(null);
+      setError("");
+      setSuccess("");
 
       await setDoc(doc(db, "users", email), {
         name,
@@ -74,7 +73,6 @@ export default function Home() {
       <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md">
         <h1 className="text-3xl font-semibold text-center mb-6 text-gray-900">Contact Form</h1>
 
-        {/* Form Fields */}
         <div className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-900">Name</label>
@@ -116,7 +114,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Submit Button */}
         <button
           onClick={onSubmit}
           disabled={loading}
@@ -125,7 +122,6 @@ export default function Home() {
           {loading ? "Submitting..." : "Submit"}
         </button>
 
-        {/* Feedback Messages */}
         {success && <p className="mt-4 text-green-600 text-center">{success}</p>}
         {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
       </div>
